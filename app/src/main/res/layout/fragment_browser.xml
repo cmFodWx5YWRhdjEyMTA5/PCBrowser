@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.arishinfolabs.pcbrowser.webview.PCBrowserWebView
+        android:id="@+id/browser_web_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="50dp"
+        android:background="#00FFFFFF" />
+
+    <EditText
+        android:id="@+id/browser_url_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:paddingRight="50dp"
+        android:singleLine="true"
+        android:imeActionLabel="Go" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true">
+
+    <ImageButton
+        android:id="@+id/add_new_browser_tabs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/ic_add_black" />
+
+    <ImageButton
+        android:id="@+id/add_browser_filters"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/ic_filter_black"
+        android:layout_toRightOf="@+id/add_new_browser_tabs"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>
