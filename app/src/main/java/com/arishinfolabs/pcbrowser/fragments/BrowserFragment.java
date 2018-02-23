@@ -5,6 +5,8 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,14 +21,15 @@ import com.arishinfolabs.pcbrowser.activities.PCBrowserActivity;
 import com.arishinfolabs.pcbrowser.webview.PCBrowserWebView;
 
 /**
- * Created by EE207823 on 2/22/2018.
+ * Created by Ashish Chaudhary on 2/22/2018.
  */
 
-public class BrowserFragment extends Fragment {
+public class BrowserFragment extends Fragment implements View.OnClickListener {
 
     private PCBrowserWebView pcBrowserWebView;
     private EditText browserUrlText;
     private ImageButton addNewTab;
+    private ImageButton addFilters;
     private PCBrowserActivity mActivity;
     private WebViewClient pcBrowserWebViewClient;
 
@@ -43,13 +46,20 @@ public class BrowserFragment extends Fragment {
 
         View v = inflater.inflate(R.layout.fragment_browser, container, false);
         loadViews(v);
+        setToolBar();
         return v;
+    }
+
+    private void setToolBar() {
+        Toolbar tb = mActivity.findViewById(R.id.toolbar);
+        mActivity.setSupportActionBar(tb);
     }
 
     private void loadViews(View v) {
         pcBrowserWebView = v.findViewById(R.id.browser_web_view);
         browserUrlText = v.findViewById(R.id.browser_url_text);
         addNewTab = v.findViewById(R.id.add_new_browser_tabs);
+        addFilters = v.findViewById(R.id.add_browser_filters);
         pcBrowserWebViewClient = new WebViewClient(){
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
@@ -63,6 +73,7 @@ public class BrowserFragment extends Fragment {
             }
         };
         pcBrowserWebView.setWebViewClient(pcBrowserWebViewClient);
+        addFilters.setOnClickListener(this);
         handleLoadUrl();
     }
 
@@ -76,5 +87,18 @@ public class BrowserFragment extends Fragment {
         pcBrowserWebView.loadUrl(url);
         InputMethodManager imm = (InputMethodManager) mActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(browserUrlText.getWindowToken(), 0);
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.add_browser_filters :
+                mActivity.handleFilterListener();
+                break;
+
+            case R.id.add_new_browser_tabs :
+
+                break;
+        }
     }
 }
