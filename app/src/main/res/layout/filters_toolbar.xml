@@ -30,12 +30,12 @@
             android:src="@mipmap/ic_add_black"
             android:layout_marginRight="10dp"/>
 
-        <ImageButton
+        <!--<ImageButton
             android:id="@+id/delete_filters"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@mipmap/ic_filter_black"
-            android:layout_toRightOf="@+id/add_new_browser_tabs"/>
+            android:layout_toRightOf="@+id/add_new_browser_tabs"/>-->
 
     </LinearLayout>
 

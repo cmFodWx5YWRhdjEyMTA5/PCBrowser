@@ -3,4 +3,9 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Alert Dialog Strings-->
+    <string name="ok">OK</string>
+    <string name="cancel">CANCEL</string>
+    <string name="alertMessage">You are not allowed to search this</string>
 </resources>

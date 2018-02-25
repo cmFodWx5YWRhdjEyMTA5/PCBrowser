@@ -7,4 +7,6 @@ package com.arishinfolabs.pcbrowser.listeners;
 public interface CustomListeners {
 
     public void handleFilterListener();
+
+    public void handleBrowserListener();
 }

@@ -1,5 +1,6 @@
 package com.arishinfolabs.pcbrowser.activities;
 
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +10,8 @@ import com.arishinfolabs.pcbrowser.R;
 import com.arishinfolabs.pcbrowser.fragments.AddFiltersFragment;
 import com.arishinfolabs.pcbrowser.fragments.BrowserFragment;
 import com.arishinfolabs.pcbrowser.listeners.CustomListeners;
+
+import java.util.List;
 
 public class PCBrowserActivity extends AppCompatActivity implements CustomListeners {
 
@@ -41,10 +44,25 @@ public class PCBrowserActivity extends AppCompatActivity implements CustomListen
         loadFiltersFragment();
     }
 
+    @Override
+    public void handleBrowserListener() {
+        loadBrowser();
+    }
+
     private void loadFiltersFragment() {
         fragmentTransaction = fragmentManager.beginTransaction();
         addFiltersFragment = new AddFiltersFragment();
         fragmentTransaction.replace(R.id.layout_container, addFiltersFragment, FILTER_FRAGMENT_STRING);
+        fragmentTransaction.addToBackStack(FILTER_FRAGMENT_STRING);
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (getFragmentManager().getBackStackEntryCount() > 0) {
+            getFragmentManager().popBackStack();
+        } else {
+            super.onBackPressed();
+        }
     }
 }

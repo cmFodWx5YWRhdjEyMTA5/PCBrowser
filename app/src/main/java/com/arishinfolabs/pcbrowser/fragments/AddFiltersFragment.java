@@ -14,6 +14,10 @@ import android.widget.Toast;
 
 import com.arishinfolabs.pcbrowser.R;
 import com.arishinfolabs.pcbrowser.activities.PCBrowserActivity;
+import com.arishinfolabs.pcbrowser.database.FilterData;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Ashish Chaudhary on 2/24/2018.
@@ -31,7 +35,6 @@ public class AddFiltersFragment extends Fragment implements View.OnClickListener
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mActivity = (PCBrowserActivity) getActivity();
-        filtersAdapter = new ArrayAdapter<String>(mActivity, android.R.layout.simple_list_item_1);
     }
 
     @Nullable
@@ -44,7 +47,25 @@ public class AddFiltersFragment extends Fragment implements View.OnClickListener
         filterView = v.findViewById(R.id.filters_view);
         addFilters = v.findViewById(R.id.add_filters);
         addFilters.setOnClickListener(this);
+        loadFilterListData();
         return v;
+    }
+
+    private void loadFilterListData() {
+        filtersAdapter = new ArrayAdapter<String>(mActivity, android.R.layout.simple_list_item_1);
+        List<FilterData> filterDataList =  FilterData.getFilterList();
+        ArrayList<String> dataList = new ArrayList<>();
+        for (FilterData filterData : filterDataList) {
+            dataList.add(filterData.filterString);
+        }
+
+        if(filterDataList == null) {
+            Toast.makeText(mActivity, "No Filters List to show", Toast.LENGTH_LONG).show();
+        }   else {
+            filtersAdapter.addAll(dataList);
+            filterView.setAdapter(filtersAdapter);
+            filtersAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override
@@ -62,9 +83,15 @@ public class AddFiltersFragment extends Fragment implements View.OnClickListener
         if(filterString.isEmpty()) {
             Toast.makeText(mActivity, "Enter filters keyword", Toast.LENGTH_LONG).show();
         } else {
+
+            FilterData filterData = new FilterData();
+            filterData.filterString = filterString;
+            filterData.save();
             filtersAdapter.add(filterString);
             filterView.setAdapter(filtersAdapter);
             filtersAdapter.notifyDataSetChanged();
         }
     }
+
+
 }
