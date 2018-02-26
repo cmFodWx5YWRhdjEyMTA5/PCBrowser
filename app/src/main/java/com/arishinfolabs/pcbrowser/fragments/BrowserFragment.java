@@ -77,7 +77,7 @@ public class BrowserFragment extends Fragment implements View.OnClickListener, V
                 browserUrlText.setText(url);
                 Log.v(TAG, "Browser Url - "+url);
                 if (checkForFilteredString(url)) {
-                    Utils.showAlert(mActivity);
+                    Utils.showAlert(mActivity , "You are not allowed to search this");
                     pcBrowserWebView.loadUrl("");
                     browserUrlText.setText("");
                 }
@@ -100,7 +100,7 @@ public class BrowserFragment extends Fragment implements View.OnClickListener, V
         String url = browserUrlText.getText().toString();
 
          if (checkForFilteredString(url)) {
-             Utils.showAlert(mActivity);
+             Utils.showAlert(mActivity, "You are not allowed to search this");
          } else {
              if (url.startsWith("http://")) {
              } else if (url.startsWith("https://")) {

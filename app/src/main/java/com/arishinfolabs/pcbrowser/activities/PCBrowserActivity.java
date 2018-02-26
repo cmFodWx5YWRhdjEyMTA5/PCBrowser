@@ -3,22 +3,29 @@ package com.arishinfolabs.pcbrowser.activities;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.arishinfolabs.pcbrowser.R;
 import com.arishinfolabs.pcbrowser.fragments.AddFiltersFragment;
 import com.arishinfolabs.pcbrowser.fragments.BrowserFragment;
+import com.arishinfolabs.pcbrowser.listeners.ConnectivityReceiverListener;
 import com.arishinfolabs.pcbrowser.listeners.CustomListeners;
+import com.arishinfolabs.pcbrowser.receivers.ConnectivityReceiver;
+import com.arishinfolabs.pcbrowser.utils.Utils;
 
 import java.util.List;
 
-public class PCBrowserActivity extends AppCompatActivity implements CustomListeners {
+public class PCBrowserActivity extends AppCompatActivity implements CustomListeners, ConnectivityReceiverListener {
 
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
     private BrowserFragment browserFragment;
     private AddFiltersFragment addFiltersFragment;
+    private ConnectivityReceiver connectivityReceiver;
 
 
     private final String BROWSER_FRAGMENT_STRING = "browser_fragment";
@@ -30,6 +37,18 @@ public class PCBrowserActivity extends AppCompatActivity implements CustomListen
         setContentView(R.layout.activity_pcbrowser);
         fragmentManager = getFragmentManager();
         loadBrowser();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerConnectivityReceiver();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        deRegisterConnectivityReceiver();
     }
 
     private void loadBrowser() {
@@ -63,6 +82,24 @@ public class PCBrowserActivity extends AppCompatActivity implements CustomListen
             getFragmentManager().popBackStack();
         } else {
             super.onBackPressed();
+        }
+    }
+
+    private void registerConnectivityReceiver() {
+        connectivityReceiver = new ConnectivityReceiver(this);
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(connectivityReceiver, intentFilter);
+    }
+
+    private void deRegisterConnectivityReceiver() {
+        unregisterReceiver(connectivityReceiver);
+    }
+
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        if (!isConnected) {
+            Utils.showAlert(this, "Turn on internet to browse");
         }
     }
 }

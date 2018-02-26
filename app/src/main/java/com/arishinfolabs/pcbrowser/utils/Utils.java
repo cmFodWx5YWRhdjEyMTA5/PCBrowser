@@ -3,6 +3,9 @@ package com.arishinfolabs.pcbrowser.utils;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.util.Log;
 
 import com.arishinfolabs.pcbrowser.R;
 
@@ -12,7 +15,7 @@ import com.arishinfolabs.pcbrowser.R;
 
 public class Utils {
 
-    public static void showAlert(Context context) {
+    public static void showAlert(Context context, String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
     // Add the buttons
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
@@ -25,9 +28,19 @@ public class Utils {
                 // User cancelled the dialog
             }
         });
-        builder.setMessage(R.string.alertMessage);
+        builder.setMessage(message);
     // Create the AlertDialog
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    public static boolean isConnected(Context context) {
+        ConnectivityManager
+                cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null
+                && activeNetwork.isConnectedOrConnecting();
+        Log.v("Utils", "Network State Called :- "+isConnected);
+        return isConnected;
     }
 }
