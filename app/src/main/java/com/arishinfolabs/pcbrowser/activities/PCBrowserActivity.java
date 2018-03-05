@@ -65,7 +65,7 @@ public class PCBrowserActivity extends AppCompatActivity implements CustomListen
 
     @Override
     public void handleBrowserListener() {
-        loadBrowser();
+        loadNewBrowser();
     }
 
     private void loadFiltersFragment() {
@@ -101,5 +101,10 @@ public class PCBrowserActivity extends AppCompatActivity implements CustomListen
         if (!isConnected) {
             Utils.showAlert(this, "Turn on internet to browse");
         }
+    }
+
+    private void loadNewBrowser() {
+        Intent newBrowser = new Intent(this, PCBrowserActivity.class);
+        startActivity(newBrowser);
     }
 }

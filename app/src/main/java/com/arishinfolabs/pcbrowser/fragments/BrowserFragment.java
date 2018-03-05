@@ -13,11 +13,13 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.arishinfolabs.pcbrowser.R;
 import com.arishinfolabs.pcbrowser.activities.PCBrowserActivity;
@@ -32,7 +34,7 @@ import java.util.List;
  * Created by Ashish Chaudhary on 2/22/2018.
  */
 
-public class BrowserFragment extends Fragment implements View.OnClickListener, View.OnKeyListener {
+public class BrowserFragment extends Fragment implements View.OnClickListener, View.OnKeyListener, TextView.OnEditorActionListener {
 
     private final String TAG = BrowserFragment.class.getSimpleName();
 
@@ -94,6 +96,9 @@ public class BrowserFragment extends Fragment implements View.OnClickListener, V
 
         browserUrlText.setSelected(false);
         browserUrlText.setOnKeyListener(this);
+        browserUrlText.setOnEditorActionListener(this);
+
+        addNewTab.setOnClickListener(this);
     }
 
     private void handleLoadUrl() {
@@ -140,11 +145,20 @@ public class BrowserFragment extends Fragment implements View.OnClickListener, V
 
     @Override
     public boolean onKey(View view, int keyCode, KeyEvent keyEvent) {
+        Log.v(TAG, "Key Event - "+keyEvent.getAction());
         if (keyEvent.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
             handleLoadUrl();
             return true;
         } else {
             return false;
         }
+    }
+
+    @Override
+    public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+        if (actionId == EditorInfo.IME_ACTION_DONE) {
+            handleLoadUrl();
+        }
+        return false;
     }
 }
